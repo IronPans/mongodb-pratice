@@ -1,0 +1,20 @@
+{
+  "name": "mongoose-demo",
+  "version": "1.0.0",
+  "description": "Just a mongoose demo!",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "author": "TG",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "lodash": "^4.17.4",
+    "pug": "^2.0.0-rc.4"
+  },
+  "devDependencies": {
+    "mongoose": "^4.13.0"
+  }
+}

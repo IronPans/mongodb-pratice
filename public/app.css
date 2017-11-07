@@ -1,0 +1,55 @@
+* {
+    padding: 0;
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+div#content {
+    margin: 30px auto;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+table {
+    border-top: 1px solid #d9d9d9;
+    border-left: 1px solid #d9d9d9;
+}
+
+table tr th,
+table tr td {
+    border-right: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
+    padding: 5px 15px;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-group {
+    padding: 5px 10px;
+}
+
+.form-group input {
+    margin-left: 10px;
+}
+
+button {
+    padding: 5px 10px;
+}
+
+h4 {
+    margin-top: 40px;
+}
+
+.article-box {
+    border: 1px solid #d9d9d9;
+    background: #eee;
+    padding: 10px;
+}

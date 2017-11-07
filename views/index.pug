@@ -1,0 +1,51 @@
+doctype html
+head
+    meta(charset='utf-8')
+    title Mongoose
+    link(href="/static/app.css" rel="stylesheet")
+
+body
+    div#content
+        div.toolbar.clearfix
+            div.form-group
+                label(for="article-id") ID:
+                input(type="text" id="article-id")
+            div.form-group
+                button#search Search
+        table(cellpadding="0" cellspacing="0")
+            thead
+                tr
+                  th ID
+                  th Title
+                  th Content
+                  th Author
+                  th Date
+                  th Handle
+            tbody
+        div
+            h4 Add
+                div.article-box
+                    div.form-group
+                        label(for="title") Title
+                        input(type="text" id="title")
+                    div.form-group
+                        label(for="con") Content
+                        textarea(id="con")
+                    div.form-group
+                        button#save Save
+        div
+            h4 Update
+                div.article-box
+                    div.form-group
+                        label(for="u-id") ID
+                        input(type="text" id="u-id")
+                    div.form-group
+                        label(for="u-title") Title
+                        input(type="text" id="u-title")
+                    div.form-group
+                        label(for="u-con") Content
+                        textarea(id="u-con")
+                    div.form-group
+                        button#update Update
+                div.result
+    script(src="/static/app.js")
