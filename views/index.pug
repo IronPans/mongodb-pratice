@@ -3,8 +3,15 @@ head
     meta(charset='utf-8')
     title Mongoose
     link(href="/static/app.css" rel="stylesheet")
-
 body
+    nav.topnav
+        ul.topnav-left
+            li
+                a Mongoose-Demo
+        ul.topnav-right
+            li
+                button#open-register Register
+                span#user-name
     div#content
         div.toolbar.clearfix
             div.form-group
@@ -15,15 +22,25 @@ body
         table(cellpadding="0" cellspacing="0")
             thead
                 tr
-                  th ID
-                  th Title
-                  th Content
-                  th Author
-                  th Date
-                  th Handle
+                    th ID
+                    th Title
+                    th Content
+                    th Author
+                    th Date
+                    th Handle
             tbody
-        div
-            h4 Add
+        div.toolbar.clearfix
+            div.form-group
+                label(for="articleid") ID:
+                    input(type="text" id="articleid")
+            div.form-group
+                button#search2 Search Author
+            div.form-group
+                button#search3 Get Address
+        div.author-detail
+        div.article-content
+            div
+                h4 Add
                 div.article-box
                     div.form-group
                         label(for="title") Title
@@ -33,8 +50,8 @@ body
                         textarea(id="con")
                     div.form-group
                         button#save Save
-        div
-            h4 Update
+            div
+                h4 Update
                 div.article-box
                     div.form-group
                         label(for="u-id") ID
@@ -48,4 +65,28 @@ body
                     div.form-group
                         button#update Update
                 div.result
+    div#register
+        div.overlay
+        div.register-box
+            div.form-group
+                label(for="u-name") Name
+                input(type="text" id="u-name" placeholder="Required, minlength: 3, maxlength: 6")
+                div.error(data-error="name")
+            div.form-group
+                label(for="u-phone") Phone
+                input(type="text" id="u-phone" placeholder="Required, (13... | 15... | 18...)")
+                div.error(data-error="phone")
+            div.form-group
+                label(for="u-age") Age
+                input(id="u-age" placeholder="Required, min: 18, max: 30")
+                div.error(data-error="age")
+            div.form-group
+                label(for="u-sex") Sex
+                select#u-sex
+                    option(value="Don't know") Don't know
+                    option(value="male") male
+                    option(value="female") female
+                div.error(data-error="sex")
+            div.form-group
+                button#register-btn Register
     script(src="/static/app.js")

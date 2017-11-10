@@ -3,6 +3,7 @@ const utils = require('./utils/utils');
 const express = require('express');
 const path = require('path');
 const app = express();
+const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 const files = utils.getAllFiles('modules');
@@ -27,6 +28,8 @@ app.use('/static',express.static(__dirname + '/public'));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+app.use(morgan('dev'));
 
 app.route('/').get((req, res) => {
     res.render('index');

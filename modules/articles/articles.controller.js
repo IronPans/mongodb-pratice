@@ -23,7 +23,6 @@ exports.get = (req, res) => {
 exports.add = (req, res) => {
     req.body['articleId'] = commonFunction.getRandom();
     req.body['modifyOn'] = new Date();
-    req.body['by'] = 'TG';
     const article = new ArticlesModel(req.body);
     article.save((err) => {
         if (err) {
@@ -80,4 +79,24 @@ exports.update = (req, res) => {
             })
         }
     })
+};
+
+/**
+ *  进阶篇
+ */
+
+exports.getAuthorByArticleid = (req, res) => {
+    ArticlesModel.findById(req.query.id)
+        .populate('by', 'name -_id')
+        .exec(function (err, story) {
+            if (err) {
+                return res.status(400).send({
+                    message: '更新失败',
+                    data: []
+                });
+            }
+            res.jsonp({
+                data: [story]
+            })
+        });
 };

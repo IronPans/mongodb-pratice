@@ -1,3 +1,4 @@
+'use strict';
 var content = document.getElementById('content');
 var table = content.querySelector('table');
 var search = document.getElementById('search');
@@ -10,7 +11,14 @@ var updateTitle = document.getElementById('u-title');
 var updateContent = document.getElementById('u-con');
 var update = document.getElementById('update');
 var result = document.querySelector('.result');
+var registerBox = document.getElementById('register');
+var openRegisterBtn = document.getElementById('open-register');
+var registerBtn = document.getElementById('register-btn');
+var search2 = document.getElementById('search2');
 var datas = [];
+var userDetail = '';
+
+getUserDetail();
 
 search.addEventListener('click', function() {
     var id = searchID.value;
@@ -39,8 +47,12 @@ save.addEventListener('click', function() {
         return;
     }
 
+    if (!userDetail) {
+        alert('请注册!');
+        return;
+    }
     ajax('/api/article/add', {
-        data: {title: title, content: content},
+        data: {title: title, content: content, by: userDetail['_id']},
         method: 'post'
     }, function(res) {
         res = JSON.parse(res);
@@ -67,7 +79,89 @@ update.addEventListener('click', function() {
         var data = JSON.parse(res)['data'][0];
         result.innerHTML = `title: ${data['title']}; content: ${data['content']}`;
     })
-})
+});
+
+openRegisterBtn.addEventListener('click', function() {
+    registerBox.style.display = 'block';
+    var box =registerBox.querySelector('.register-box');
+    box.style.display = 'block';
+    var width = box.offsetWidth;
+    box.classList.add('active');
+});
+
+registerBox.querySelector('.overlay').addEventListener('click', function() {
+    registerBox.style.display = 'none';
+    var box =registerBox.querySelector('.register-box');
+    box.style.display = 'none';
+    box.classList.remove('active');
+});
+
+var nameErr = document.querySelector('[data-error="name"]');
+var ageErr = document.querySelector('[data-error="age"]');
+var phoneErr = document.querySelector('[data-error="phone"]');
+var sexErr = document.querySelector('[data-error="sex"]');
+registerBtn.addEventListener('click', function() {
+    var name = document.getElementById('u-name').value;
+    var phone = document.getElementById('u-phone').value;
+    var age = document.getElementById('u-age').value;
+    var sex = document.getElementById('u-sex').value;
+    ajax('/api/users/save', {
+        data: {
+            name: name,
+            phone: phone,
+            age: age,
+            sex: sex
+        },
+        method: 'POST'
+    }, function(res) {
+        nameErr.innerHTML = '';
+        ageErr.innerHTML = '';
+        phoneErr.innerHTML = '';
+        sexErr.innerHTML = '';
+        localStorage.setItem('userDetail', res);
+        console.log(res);
+        registerBox.style.display = 'none';
+        var box =registerBox.querySelector('.register-box');
+        box.style.display = 'none';
+        box.classList.remove('active');
+    }, function(err) {
+        var obj = JSON.parse(err);
+        var errors;
+        if (Boolean(obj) && typeof obj === 'object' && obj['message']) {
+            errors = obj['message']['errors'];
+            checkValid(nameErr, 'name', errors);
+            checkValid(ageErr, 'age', errors);
+            checkValid(phoneErr, 'phone', errors);
+            checkValid(sexErr, 'sex', errors);
+        }
+    });
+});
+
+search2.addEventListener('click', function() {
+    var id = document.getElementById('articleid').value;
+    if (id) {
+        ajax('/api/article/authorByArticleid?id=' + id, {}, function(res) {
+            document.querySelector('.author-detail').innerHTML = res;
+        })
+    }
+});
+
+document.getElementById('search3').addEventListener('click', function() {
+    var id = userDetail['_id'];
+    if (id) {
+        ajax('/api/users/address?id=' + id, {}, function(res) {
+            document.querySelector('.author-detail').innerHTML = res;
+        })
+    }
+});
+
+function checkValid(elem, field, errors) {
+    if (errors[field]) {
+        elem.innerHTML = errors[field]['message'];
+    } else {
+        elem.innerHTML = '';
+    }
+}
 
 function addList(data) {
     var tr = document.createElement('tr');
@@ -97,6 +191,15 @@ function addList(data) {
     table.querySelector('tbody').appendChild(tr);
 }
 
+function getUserDetail() {
+    var detail = localStorage.getItem('userDetail');
+    if (detail) {
+        userDetail = JSON.parse(detail);
+        openRegisterBtn.style.display = 'none';
+        document.getElementById('user-name').innerHTML = userDetail['name'];
+    }
+}
+
 function ajax(url, params, success, fail) {
     var xhr = new XMLHttpRequest();
     var data = params.data || null;
@@ -110,7 +213,10 @@ function ajax(url, params, success, fail) {
         if (xhr.readyState === 4 && xhr.status === 200) {
             success && success(xhr.response);
         } else {
-            fail && fail();
+            try {
+                fail && fail(xhr.response);
+            } catch(err) {
+            }
         }
     };
     if (data) {

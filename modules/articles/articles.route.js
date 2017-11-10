@@ -12,4 +12,10 @@ module.exports = (app) => {
 
     app.route('/api/article/update')
         .put(articleControllder.update);
+
+    /**
+     * 进阶篇
+     */
+    app.route('/api/article/authorByArticleid')
+        .get(articleControllder.getAuthorByArticleid);
 };

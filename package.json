@@ -4,7 +4,8 @@
   "description": "Just a mongoose demo!",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "node main.js",
+    "start:dev": "webpack-dev-server"
   },
   "author": "TG",
   "license": "ISC",
@@ -12,9 +13,12 @@
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "lodash": "^4.17.4",
-    "pug": "^2.0.0-rc.4"
+    "node-sass": "^4.6.0",
+    "pug": "^2.0.0-rc.4",
+    "request": "^2.83.0"
   },
   "devDependencies": {
-    "mongoose": "^4.13.0"
+    "mongoose": "^4.13.0",
+    "morgan": "^1.9.0"
   }
 }
