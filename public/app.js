@@ -20,6 +20,10 @@ var userDetail = '';
 
 getUserDetail();
 
+ajax('/api/users/userList?name=/user1/', {}, function(res) {
+    console.log(res);
+});
+
 search.addEventListener('click', function() {
     var id = searchID.value;
     if (!id) {
@@ -144,6 +148,74 @@ search2.addEventListener('click', function() {
             document.querySelector('.author-detail').innerHTML = res;
         })
     }
+});
+
+function getCityList() {
+    var table = document.getElementById('city-table');
+    var head = '<thead><tr><td>省份</td><td>城市</td><td>人口</td><td>行业</td></tr></thead>';
+    ajax('/api/city/cityList', {}, function(res) {
+        var data = JSON.parse(res);
+        var body = '<tbody>';
+        for (var i = 0; i < data.length; i++) {
+            var industry = '';
+            for (var j = 0; j < data[i]['industry'].length; j++) {
+                industry += `
+<tr><td>${data[i]['industry'][j]['name']}</td><td>${data[i]['industry'][j]['person']}</td></tr>
+`;
+            }
+            body += `<tr>
+<td>${data[i]['province']}</td>
+<td>${data[i]['city']}</td>
+<td>${data[i]['person']}</td>
+<td>
+<table>
+<thead><tr><td>名称</td><td>人口</td></tr></thead>
+<tbody>${industry}</tbody>
+</table>
+</td></tr>
+`;
+        }
+        body += '</tbody>';
+        table.innerHTML = head + body;
+    })
+}
+
+getCityList();
+
+document.getElementById('citySearch1').addEventListener('click', function() {
+    ajax('/api/city/cityGtThousand', {}, function(res) {
+        document.getElementById('city-result').innerHTML = res;
+    })
+});
+
+document.getElementById('citySearch2').addEventListener('click', function() {
+    ajax('/api/city/getITPerson', {}, function(res) {
+        document.getElementById('city-result').innerHTML = res;
+    })
+});
+
+document.getElementById('citySearch3').addEventListener('click', function() {
+    ajax('/api/city/sortByPerson', {}, function(res) {
+        document.getElementById('city-result').innerHTML = res;
+    })
+});
+
+document.getElementById('citySearch4').addEventListener('click', function() {
+    ajax('/api/city/getSecondCity', {}, function(res) {
+        document.getElementById('city-result').innerHTML = res;
+    })
+});
+
+document.getElementById('citySearch5').addEventListener('click', function() {
+    ajax('/api/city/getRandomCity', {}, function(res) {
+        document.getElementById('city-result').innerHTML = res;
+    })
+});
+
+document.getElementById('citySearch6').addEventListener('click', function() {
+    ajax('/api/users/getArticleByUser', {}, function(res) {
+        document.getElementById('city-result').innerHTML = res;
+    })
 });
 
 document.getElementById('search3').addEventListener('click', function() {

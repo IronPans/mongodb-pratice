@@ -25,6 +25,7 @@ const ArticlesSchema = new Schema({
     },
     content: { type: String },
     by: { type: Schema.Types.ObjectId, ref: 'users' },
+    author: { type: String },
     modifyOn: { type: Date, default: Date.now },
 }, { collection: 'articles' });
 

@@ -18,4 +18,5 @@ module.exports = (app) => {
      */
     app.route('/api/article/authorByArticleid')
         .get(articleControllder.getAuthorByArticleid);
+
 };
